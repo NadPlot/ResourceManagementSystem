@@ -4,3 +4,4 @@ sqlalchemy~=1.4
 psycopg2-binary~=2.9
 uvicorn~=0.18
 python-dotenv~=0.20
+pydantic[email]
