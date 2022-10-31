@@ -18,6 +18,11 @@ def create_user(db: Session, user: UserCreate):
     return new_user
 
 
-# получить user по номеру телефона (для проверки есть ли уже такой номер в БД)
+# получить user по номеру телефона
+# (для проверки есть ли уже такой номер в БД)
 def get_user_by_phone(db: Session, phone: int):
     return db.query(User).filter(User.phone == phone).first()
+
+# получить id по логину и паролю
+def get_user_id(db: Session, login: str, password: str):
+    db_login = db.query(User).filter(User.login == login).first
