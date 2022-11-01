@@ -11,6 +11,15 @@ class UserBase(BaseModel):
     birth: datetime.date
     tg: Optional[str]
     email: Optional[EmailStr]
+
+    @validator('birth') # проверка возраста (18+)
+    def birth_adult(cls, v):
+        year_now = datetime.date.today().year
+        year_birth = v.year
+        delta = year_now - year_birth
+        if delta < 18:
+            raise ValueError('Your age must be 18+')
+        return v
     
     @validator('phone')  # проверка правильности ввода номера телефона
     def phone_numeric(cls, v):

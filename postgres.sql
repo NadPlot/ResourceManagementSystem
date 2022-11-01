@@ -32,5 +32,3 @@ INSERT INTO "public"."User" (
     'anastasia.a.krasnova@gmail.com'
 );
 
-SELECT * FROM "public"."User";
-
