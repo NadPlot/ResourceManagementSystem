@@ -23,13 +23,14 @@ SQL script для создания схемы БД: postgres.sql
 
 Документация: http://127.0.0.1:8008/docs
 
-Создать таблицу в БД с одной записью - выполнить скрипт postgres.sql.
+Выполнить скрипт postgres.sql - будет создана таблица БД "User"
+с одной строкой (user id=1)
 Для этого:
     
 
     $ docker-compose exec db psql --username=postgres --dbname==postgres
-psql    # \c postgres
-psql    # \i './postgres.sql'
+    # \c postgres
+
 
 
 ### Подключение к БД

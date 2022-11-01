@@ -24,9 +24,12 @@ class UserBase(BaseModel):
     @validator('phone')  # проверка правильности ввода номера телефона
     def phone_numeric(cls, v):
         if not v.startswith('+7'):
-            raise ValueError('must be numeric and starts with +7')
-        elif len(v) != 12:
-            raise ValueError('must contains +7 and 11 nums')
+            raise ValueError('phone must starts with +7')
+        num = v.split('+')[1]
+        if not num.isnumeric() or not v.startswith('+7'):
+            raise ValueError('phone must be numeric')
+        elif len(num) != 11:
+            raise ValueError('phone must contains 11 nums')
         return v
 
 

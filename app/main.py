@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Depends, Request
+from fastapi import FastAPI, Depends, Request, status
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from app.schemas import User, UserCreate
@@ -56,7 +57,7 @@ def register_user(data: UserCreate, db: Session = Depends(get_db)):
 
     return JSONResponse(
         status_code=201,
-        content={"id": f"{user.id}"}
+        content={"id": user.id}
     )
 
 # возвращает json с идентификатором пользователя
@@ -66,7 +67,7 @@ def register_user(data: UserCreate, db: Session = Depends(get_db)):
     name="Json с id пользователя",
     description="принимает JSON с логином и паролем",
 )
-def user_login(login: str, password: str, db: Session = Depends(get_db)):
+def login_user(login: str, password: str, db: Session = Depends(get_db)):
     pass
 
 
@@ -92,5 +93,16 @@ def get_user_by_id(id: int, db: Session = Depends(get_db)):
 async def phone_exists_handler(request: Request, exc: PhoneExistsException):
     return JSONResponse(
         status_code=400,
-        content={"code": "400", "message": "User с таким номером телефона уже существует", "phone": f"{exc.phone}"}
+        content={"code": "400", "message": "User с таким номером телефона уже существует"}
     )
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    for i in exc.errors():
+        error = i.get("msg")
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        content={"code": "422", "message": error},
+    )
+
