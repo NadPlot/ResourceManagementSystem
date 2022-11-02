@@ -1,5 +1,4 @@
 from sqlalchemy.orm import Session
-from fastapi.encoders import jsonable_encoder
 from app.database import User
 from app.schemas import UserCreate
 
@@ -18,11 +17,7 @@ def create_user(db: Session, user: UserCreate):
     return new_user
 
 
-# получить user по номеру телефона
-# (для проверки есть ли уже такой номер в БД)
-def get_user_by_phone(db: Session, phone: int):
-    return db.query(User).filter(User.phone == phone).first()
+# получить user по логину
+def get_user_by_login(db: Session, login: str):
+    return db.query(User).filter(User.login == login).first()
 
-# получить id по логину и паролю
-def get_user_id(db: Session, login: str, password: str):
-    db_login = db.query(User).filter(User.login == login).first

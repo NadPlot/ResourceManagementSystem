@@ -1,4 +1,4 @@
-class PhoneExistsException(Exception):
-    def __init__(self, phone: int):
-        self.phone = phone
+class LoginExistsException(Exception):
+    def __init__(self, login: str):
+        self.login = login
 

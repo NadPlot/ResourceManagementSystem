@@ -26,7 +26,7 @@ class UserBase(BaseModel):
         if not v.startswith('+7'):
             raise ValueError('phone must starts with +7')
         num = v.split('+')[1]
-        if not num.isnumeric() or not v.startswith('+7'):
+        if not num.isnumeric():
             raise ValueError('phone must be numeric')
         elif len(num) != 11:
             raise ValueError('phone must contains 11 nums')
@@ -38,8 +38,22 @@ class UserCreate(UserBase):
     password: str
 
 
-# чтение таблица User:
+# чтение таблица User полностью
 class User(UserBase):
+    id: int
+    
+    class Config:
+        orm_mode = True
+
+
+# Логин и пароль только (POST /v1/auth/login)
+class UserLogin(BaseModel):
+    login: str
+    password: str
+
+
+# чтение только id
+class UserId(BaseModel):
     id: int
     
     class Config:
